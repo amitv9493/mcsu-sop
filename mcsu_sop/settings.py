@@ -6,8 +6,10 @@ Including security, database, static/media files, and installed apps configurati
 
 from pathlib import Path
 from datetime import timedelta
+import environ
 import os
 
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -71,7 +73,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mcsu_sop.urls'
-
 
 
 CORS_ALLOWED_ORIGINS = [
@@ -473,14 +474,16 @@ JAZZMIN_UI_TWEAKS = {
 JAZZMIN_SETTINGS["custom_css"] = "css/custom.css"
 
 
-
 # Email configuration (replace with your email settings)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST' , 'smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT' , 587))
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER' , '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD' , '')
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = env("EMAIL_HOST_USER")
 
 # Logging configuration
 LOGGING = {
@@ -508,4 +511,3 @@ LOGGING = {
         } ,
     } ,
 }
-
